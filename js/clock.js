@@ -33,7 +33,7 @@ function updateClock()
 
 function fmtTimePart( part )
 {
-	return ( '0' + part ).slice( -2 );
+	return ( part );
 }
 
 function updateWeather()
@@ -45,7 +45,7 @@ function updateWeather()
 							var json = response.responseJSON;
 							var tempUnit = json.tempUnit;
 							
-							parseWeather( json.current, tempUnit );
+							parseWeather( json.forecast, tempUnit );
 							parseForecast( json.forecast, json.forecastItems );
 						},
 						onComplete: updateWeather.delay( 60 * 30 )
@@ -65,27 +65,27 @@ function updateWeatherIcon( weather, target )
 
 function parseWeather( json, tempUnit )
 {
-	updateWeatherIcon( json.weather, 'weatherIcon' );
+	updateWeatherIcon( json.current.weather, 'weatherIcon' );
 											
-	$( 'temp' ).update( Math.round( json.main.temp ) + ' ' + tempUnit );
-	$( 'humidity' ).update( Math.round( json.main.humidity ) + '%' );
+	$( 'temp' ).update( Math.round( (json.current.temp)-273.15 ) + ' ' + tempUnit );
+	$( 'humidity' ).update( Math.round( json.current.humidity ) + '%' );
 }
 
 function parseForecast( json, numItems)
 {
-	var len = json.list[ 0 ];
+	var len = json.daily[ 0 ];
 	var forcast = $( 'forecast' );
 	
 	forecast.innerHTML = '';
 
-	for( var i = 0, len = Math.min( json.list.length, numItems ); i < len; i++ ) {
-		var item = json.list[ i ];
+	for( var i = 1, len = Math.min( json.daily.length, numItems ); i <= len; i++ ) {
+		var item = json.daily[ i ];
 
 		forecast.insert( forecastTpl.evaluate( {
 			idx:		i,
-			temp:		Math.round( item.main.temp ),
-			humidity:	Math.round( item.main.humidity ),
-			hour: 		fmtTimePart( new Date( item.dt * 1000 ).getHours() )
+			temp:		Math.round( (item.temp.day)-273.15 ),
+			humidity:	Math.round( item.humidity ),
+			hour: 		fmtTimePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
 		} ));
 		
 		updateWeatherIcon( item.weather, $( 'forecast' + i ).down( '.icon' ));
