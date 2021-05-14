@@ -4,7 +4,7 @@
 	header( 'Content-Type: application/json' );
 
 	$current  = file_get_contents( 'https://api.openweathermap.org/data/2.5/weather?id=' . OWM_CITY_ID . '&appid=' . OWM_API_KEY . '&units=' . OWM_UNITS );
-	$forecast = file_get_contents( 'https://api.openweathermap.org/data/2.5/forecast?id=' . OWM_CITY_ID . '&appid=' . OWM_API_KEY . '&units=' . OWM_UNITS );
+	$forecast = file_get_contents( 'https://api.openweathermap.org/data/2.5/onecall?lat=' . OWM_LAT . '&lon=' . OWM_LONG . '&exclude=' . OWM_EXCLUDE . '&appid=' . OWM_API_KEY);	
 
 	$data = new stdClass();
 	
