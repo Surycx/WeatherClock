@@ -1,5 +1,5 @@
 # WeatherClock
-A simple clock with weather info, meant to be used on a Rasperry Pi with its 7" display, in a full-screen Chromium instance
+A simple clock with weather info, meant to be used on a Rasperry Pi with a 7" display, in a full-screen Chromium instance
 
 ![Screenshot](screenshot_new.png)
 
