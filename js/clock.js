@@ -33,7 +33,11 @@ function updateClock()
 
 function fmtTimePart( part )
 {
-	return ( part );
+	return ( '0'+ part ).slice(-2);
+}
+function fmtDatePart( part )
+{
+	return (part );
 }
 
 function updateWeather()
@@ -85,7 +89,7 @@ function parseForecast( json, numItems)
 			idx:		i,
 			temp:		Math.round( (item.temp.day)-273.15 ),
 			humidity:	Math.round( item.humidity ),
-			hour: 		fmtTimePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
+			hour: 		fmtDatePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
 		} ));
 		
 		updateWeatherIcon( item.weather, $( 'forecast' + i ).down( '.icon' ));
