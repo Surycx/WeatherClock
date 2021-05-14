@@ -1,7 +1,7 @@
 # WeatherClock
 A simple clock with weather info, meant to be used on a Rasperry Pi with its 7" display, in a full-screen Chromium instance
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot_new.png)
 
 Optionally, it can be configured to monitor a [Subsonic](http://www.subsonic.org/) instance and, when something is playing, replace the weather forecast with media info:
 
