@@ -39,7 +39,16 @@ function fmtDatePart( part )
 {
 	return (part );
 }
-
+function fmtDayPart( part )
+{
+	weekday = ['So\n','Mo\n','Di\n','Mi\n','Do\n','Fr\n','Sa\n']
+	for (i=0; i<=6;i++){
+		if (part == i){
+			partn = weekday[i]
+			return (partn );
+		}
+	}
+}
 function updateWeather()
 {
 	new Ajax.Request( 'backend/weather.php',
@@ -49,10 +58,10 @@ function updateWeather()
 							var json = response.responseJSON;
 							var tempUnit = json.tempUnit;
 							
-							parseWeather( json.forecast, tempUnit );
+							parseWeather( json.current, tempUnit );
 							parseForecast( json.forecast, json.forecastItems );
 						},
-						onComplete: updateWeather.delay( 60 * 30 )
+						onComplete: updateWeather.delay( 60 * 30)
 					  } );
 }
 
@@ -69,10 +78,10 @@ function updateWeatherIcon( weather, target )
 
 function parseWeather( json, tempUnit )
 {
-	updateWeatherIcon( json.current.weather, 'weatherIcon' );
+	updateWeatherIcon( json.weather, 'weatherIcon' );
 											
-	$( 'temp' ).update( Math.round( (json.current.temp)-273.15 ) + ' ' + tempUnit );
-	$( 'humidity' ).update( Math.round( json.current.humidity ) + '%' );
+	$( 'temp' ).update( Math.round( json.main.temp ) + ' ' + tempUnit );
+	$( 'humidity' ).update( Math.round( json.main.humidity ) + '%' );
 }
 
 function parseForecast( json, numItems)
@@ -89,7 +98,7 @@ function parseForecast( json, numItems)
 			idx:		i,
 			temp:		Math.round( (item.temp.day)-273.15 ),
 			humidity:	Math.round( item.humidity ),
-			hour: 		fmtDatePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
+			hour: 		(fmtDayPart(new Date( item.dt * 1000 ).getDay())+fmtDatePart(new Date( item.dt * 1000 ).getDate() + '.'+(new Date( item.dt * 1000 ).getMonth()+1)+'.'))
 		} ));
 		
 		updateWeatherIcon( item.weather, $( 'forecast' + i ).down( '.icon' ));
