@@ -33,7 +33,8 @@ function updateClock()
 
 function fmtTimePart( part )
 {
-	return ( '0'+ part ).slice(-2);
+	//return ( '0'+ part ).slice(-2);
+	return ( part )
 }
 function fmtDatePart( part )
 {
@@ -58,7 +59,7 @@ function updateWeather()
 							var json = response.responseJSON;
 							var tempUnit = json.tempUnit;
 							
-							parseWeather( json.current, tempUnit );
+							parseWeather( json.forecast, tempUnit );
 							parseForecast( json.forecast, json.forecastItems );
 						},
 						onComplete: updateWeather.delay( 60 * 30)
@@ -78,10 +79,10 @@ function updateWeatherIcon( weather, target )
 
 function parseWeather( json, tempUnit )
 {
-	updateWeatherIcon( json.weather, 'weatherIcon' );
+	updateWeatherIcon( json.current.weather, 'weatherIcon' );
 											
-	$( 'temp' ).update( Math.round( json.main.temp ) + ' ' + tempUnit );
-	$( 'humidity' ).update( Math.round( json.main.humidity ) + '%' );
+	$( 'temp' ).update( Math.round( (json.current.temp)-273.15 ) + ' ' + tempUnit );
+	$( 'humidity' ).update( Math.round( json.current.humidity ) + '%' );
 }
 
 function parseForecast( json, numItems)
@@ -98,7 +99,8 @@ function parseForecast( json, numItems)
 			idx:		i,
 			temp:		Math.round( (item.temp.day)-273.15 ),
 			humidity:	Math.round( item.humidity ),
-			hour: 		(fmtDayPart(new Date( item.dt * 1000 ).getDay())+fmtDatePart(new Date( item.dt * 1000 ).getDate() + '.'+(new Date( item.dt * 1000 ).getMonth()+1)+'.'))
+			hour: 		fmtTimePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
+			//hour: 		(fmtDayPart(new Date( item.dt * 1000 ).getDay())+fmtDatePart(new Date( item.dt * 1000 ).getDate() + '.'+(new Date( item.dt * 1000 ).getMonth()+1)+'.'))
 		} ));
 		
 		updateWeatherIcon( item.weather, $( 'forecast' + i ).down( '.icon' ));

@@ -3,7 +3,7 @@
 
 	header( 'Content-Type: application/json' );
 
-	$forecast = file_get_contents( 'https://api.openweathermap.org/data/2.5/onecall?lat=' . OWM_LAT . '&lon=' . OWM_LONG . '&exclude=' . OWM_EXCLUDE . '&appid=' . OWM_API_KEY);	
+	$forecast = file_get_contents( 'https://api.openweathermap.org/data/3.0/onecall?lat=' . OWM_LAT . '&lon=' . OWM_LONG . '&exclude=' . OWM_EXCLUDE . '&appid=' . OWM_API_KEY);	
 
 	$data = new stdClass();
 	
