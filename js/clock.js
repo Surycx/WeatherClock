@@ -33,8 +33,8 @@ function updateClock()
 
 function fmtTimePart( part )
 {
-	//return ( '0'+ part ).slice(-2);
-	return ( part )
+	return ( '0'+ part ).slice(-2);
+	//return ( part )
 }
 function fmtDatePart( part )
 {
