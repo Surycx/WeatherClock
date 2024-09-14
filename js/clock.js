@@ -59,7 +59,7 @@ function updateWeather()
 							var json = response.responseJSON;
 							var tempUnit = json.tempUnit;
 							
-							parseWeather( json.forecast, tempUnit );
+							parseWeather( json.current, tempUnit ); //forecast
 							parseForecast( json.forecast, json.forecastItems );
 						},
 						onComplete: updateWeather.delay( 60 * 30)
@@ -99,8 +99,8 @@ function parseForecast( json, numItems)
 			idx:		i,
 			temp:		Math.round( (item.temp.day)-273.15 ),
 			humidity:	Math.round( item.humidity ),
-			hour: 		fmtTimePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
-			//hour: 		(fmtDayPart(new Date( item.dt * 1000 ).getDay())+fmtDatePart(new Date( item.dt * 1000 ).getDate() + '.'+(new Date( item.dt * 1000 ).getMonth()+1)+'.'))
+			//hour: 		fmtTimePart( new Date( item.dt * 1000 ).getDate() + '.'+new Date( item.dt * 1000 ).getMonth()+'.')
+			hour: 		(fmtDayPart(new Date( item.dt * 1000 ).getDay())+fmtDatePart(new Date( item.dt * 1000 ).getDate() + '.'+(new Date( item.dt * 1000 ).getMonth()+1)+'.'))
 		} ));
 		
 		updateWeatherIcon( item.weather, $( 'forecast' + i ).down( '.icon' ));
